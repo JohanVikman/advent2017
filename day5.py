@@ -32,19 +32,20 @@ In this example, the exit is reached in 5 steps.
 How many steps does it take to reach the exit?
 """
 
-
-def first_part():
+def get_instructions():
     instructions = []
     for instruction in open("day5_input.txt"):
         instructions.append(int(instruction))
+    return instructions
+
+def first_part():
+    instructions = get_instructions()
     index = 0
     steps_taken = 0
     number_of_instructions = len(instructions)
-    print("Starting with {} for {} instructions".format(index, number_of_instructions))
     try:
         while 0 <= index <= number_of_instructions:
             next_index = instructions[index]
-            print(f"Looking at {next_index} using index {index}")
             instructions[index] = (next_index + 1)
             index += next_index
             steps_taken += 1
@@ -53,5 +54,38 @@ def first_part():
         print("Caught index exception {}".format(ie))
     print(f"Steps taken {steps_taken} {index}")
 
+
+def second_part():
+    """--- Part Two ---
+    Now, the jumps are even stranger: after each jump, if the offset was three or more, instead decrease it by 1.
+    Otherwise, increase it by 1 as before.
+
+    Using this rule with the above example, the process now takes 10 steps, and the offset values after finding the exit
+    are left as 2 3 2 3 -1.
+
+    How many steps does it now take to reach the exit?
+    """
+    instructions = get_instructions()
+    index = 0
+    steps_taken = 0
+    number_of_instructions = len(instructions)
+    try:
+        while 0 <= index <= number_of_instructions:
+            next_index = instructions[index]
+            if next_index >= 3:
+                instructions[index] = (next_index - 1)
+            else:
+                instructions[index] = (next_index + 1)
+            index += next_index
+            steps_taken += 1
+        steps_taken -= 1
+    except IndexError as ie:
+        print("Caught index exception {}".format(ie))
+    print(f"Steps taken {steps_taken} {index}")
+
+
+
+
 if __name__ == "__main__":
     first_part()
+    second_part()
