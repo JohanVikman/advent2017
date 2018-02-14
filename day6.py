@@ -64,11 +64,13 @@ def first_part():
             string_banks = " ".join([str(item) for item in banks])
             iterations += 1
             if bank_dict.get(string_banks):
+                last_time = bank_dict.get(string_banks)
                 print(f"Finishing up at {iterations}")
+                print(f"The loop was {iterations - last_time} big")
                 raise Exception("Finished!")
             else:
                 print(f"Saving new string_banks {string_banks}")
-                bank_dict[string_banks] = True
+                bank_dict[string_banks] = iterations
     except Exception as e:
         print(f"Caught exception {e}")
 
